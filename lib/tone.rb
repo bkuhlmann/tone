@@ -8,4 +8,6 @@ Zeitwerk::Loader.for_gem.setup
 module Tone
   DEFAULTS = Configuration::Loader.new.call
   CONTAINER = {defaults: DEFAULTS, aliaser: Aliaser, encoder: Encoder, decoder: Decoder}.freeze
+
+  def self.new(...) = Client.new(...)
 end
