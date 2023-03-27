@@ -1,0 +1,17 @@
+= Versions
+
+== 0.0.0 (2023-04-01)
+
+* Added aliaser - Brooke Kuhlmann
+* Added client - Brooke Kuhlmann
+* Added configuration defaults - Brooke Kuhlmann
+* Added configuration loader - Brooke Kuhlmann
+* Added constructor - Brooke Kuhlmann
+* Added container - Brooke Kuhlmann
+* Added decoder - Brooke Kuhlmann
+* Added documentation - Brooke Kuhlmann
+* Added encoder - Brooke Kuhlmann
+* Added error - Brooke Kuhlmann
+* Added global defaults - Brooke Kuhlmann
+* Added project skeleton - Brooke Kuhlmann
+* Added show script - Brooke Kuhlmann
