@@ -2,13 +2,21 @@
 :toclevels: 5
 :figure-caption!:
 
+:amazing_print_link: link:https://github.com/amazing-print/amazing_print[Amazing Print]
+:pattern_matching_link: link:https://alchemists.io/articles/ruby_pattern_matching[pattern matching]
+
 = Tone
+
+Provides a customizable link:https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences[ANSI] text colorizer for your terminal. This allows you to encode plain text that renders as colorized output. This is great for enhancing Command Line Interfaces (CLIs) and terminal output in general.
 
 toc::[]
 
 == Features
 
-== Screencasts
+* Provides default styles with multiple options for unique combinations.
+* Provides a single object for encoding and decoding colorized text.
+* Provides aliasing of color configurations.
+* Provides quick access to default and aliased styles.
 
 == Requirements
 
@@ -16,14 +24,382 @@ toc::[]
 
 == Setup
 
-To set up the project, run:
+To install, run:
 
-[source,bash]
+[source,ruby]
 ----
-bin/setup
+gem install tone
 ----
+
+You can also add the gem directly to your project (preferred):
+
+[source,ruby]
+----
+bundle add tone
+----
+
+Once the gem is installed, you only need to require it:
+
+```
+require "tone"
+```
 
 == Usage
+
+Basic usage is as follows:
+
+[source,ruby]
+----
+tone = Tone.new
+tone["Success!", :green]  # "\e[32mSuccess!\e[0m"
+----
+
+There is a lot more you can do with this gem so the following sections will delve into the specifics.
+
+=== Encode
+
+As you saw earlier, you can encode plain text as colorized text using `+#[]+`. Use of the `+#[]+` method is an _alias_ to the longer `#encode` method. This allows you to use minimal syntax to create colorized text. Here's a few more examples:
+
+[source,ruby]
+----
+tone = Tone.new
+
+# With symbols.
+tone["Success", :black, :on_green]    # "\e[30;42mSuccess\e[0m"
+
+# With strings.
+tone["Success", "black", "on_green"]  # "\e[30;42mSuccess\e[0m"
+
+# With no styles.
+tone["Success"]                       # "Success"
+
+# With any object that responds to `#to_str` or `#to_s`.
+tone[Object.new, :green]              # "\e[32m#<Object:0x000000010f095668>\e[0m"
+
+# With nil.
+tone[nil]                             # ""
+
+# With interspersed nils (nils are ignored).
+tone["Success", nil, :green, nil]     # "\e[32mSuccess\e[0m"
+----
+
+The first argument is the text you want to encode/colorize. This can be a word, phrase, paragraph, or entire document. All arguments that follow after the first argument are _style_ arguments which allow you to style the color of your text as you see fit. In this case, the `"Success"` text will use a _black foreground_ on a _green background_. The styles available for you to use will be explained shortly, though. For now, know that `+#[]+` is shorthand for `#encode` so any of the above examples could be replaced with `#encode` messages. Example:
+
+[source,ruby]
+----
+tone = Tone.new
+tone.encode "Success", :black, :on_green  # "\e[30;42mSuccess\e[0m"
+----
+
+Both methods are available to use depending on your preference.
+
+=== Decode
+
+Once your text has been encoded with colors, it can be nice to decode the colorized text back to plain text along with additional metadata. This is helpful -- as an example -- for testing purposes since you might not always want to deal with the hard to read escape characters. If we build upon the examples from the _Encode_ section, we can decode our colorized text into plain text with extra metadata:
+
+[source,ruby]
+----
+tone = Tone.new
+
+tone.decode "\e[30;42mSuccess\e[0m"  # [["Success", :black, :on_green]]
+tone.decode "\e[37;41mFailure\e[0m"  # [["Failure", :white, :on_red]]
+----
+
+Notice we get an array of sub arrays which mimic the original arguments passed to `#encode`. This allows you to encode and decode with minimal effort. Here's a more complex example where a sentence is used and formatted with the {amazing_print_link} gem:
+
+[source,ruby]
+----
+tone = Tone.new
+ap tone.decode("We turned a \e[37;41mfailure\e[0m into a \e[30;42msuccess\e[0m!")
+
+# [
+#   [
+#     "We turned a "
+#   ],
+#   [
+#     "failure",
+#     :white,
+#     :on_red
+#   ],
+#   [
+#     " into a "
+#   ],
+#   [
+#     "success",
+#     :black,
+#     :on_green
+#   ],
+#   [
+#     "!"
+#   ]
+# ]
+----
+
+For plain text, you get a single element array but for colorized text, it will be broken down into an array of arguments. This allows you to easily iterate over this structure for parsing, transformation, or {pattern_matching_link} purposes.
+
+Here's another example where a paragraph is used:
+
+[source,ruby]
+----
+tone = Tone.new
+
+paragraph = <<~CONTENT.strip
+  Yesterday \e[30;42mwent well\e[0m
+  but tomorrow will be \e[37;41mmore challenging\e[0m.
+CONTENT
+
+ap tone.decode(paragraph)
+
+# [
+#   [
+#     "Yesterday "
+#   ],
+#   [
+#     "went well",
+#     :black,
+#     :on_green
+#   ],
+#   [
+#     "\nbut tomorrow will be "
+#   ],
+#   [
+#     "more challenging",
+#     :white,
+#     :on_red
+#   ],
+#   [
+#     "."
+#   ]
+# ]
+----
+
+=== Defaults
+
+To display defaults, use:
+
+``` ruby
+tone = Tone.new
+tone.defaults
+```
+
+The above will output something similar to what you see below (minus the categorization) of key and value which will allow you to pick and choose the style or combination of styles you desire.
+
+* *Styles*
+** `clear`
+** `bold`
+** `dim`
+** `italic`
+** `underline`
+** `inverse`
+** `hidden`
+** `strikethrough`
+* *Foregrounds*
+** `black`
+** `red`
+** `green`
+** `yellow`
+** `blue`
+** `purple`
+** `cyan`
+** `white`
+** `bright_black`
+** `bright_red`
+** `bright_green`
+** `bright_yellow`
+** `bright_blue`
+** `bright_purple`
+** `bright_cyan`
+** `bright_white`
+* *Backgrounds*
+** `on_black`
+** `on_red`
+** `on_green`
+** `on_yellow`
+** `on_blue`
+** `on_purple`
+** `on_cyan`
+** `on_white`
+** `on_bright_black`
+** `on_bright_red`
+** `on_bright_green`
+** `on_bright_yellow`
+** `on_bright_blue`
+** `on_bright_purple`
+** `on_bright_cyan`
+** `on_bright_white`
+
+These are the defaults for which you can mix-n-match as desired to produce colorful output. For example, if you want black text on a green background with an underline, you could use:
+
+```
+tone = Tone.new
+puts tone["Success!", :black, :on_green, :strikethrough]
+```
+
+==== Codes
+
+For situations where you'd like to find a code (or codes) for a symbol you can use the following:
+
+[source,ruby]
+----
+tone = Tone.new
+
+tone.find_code :green                # 32
+tone.find_code :bogus                # nil
+tone.find_codes :green               # [32]
+tone.find_codes :red, :green, :blue  # [31, 32, 34]
+tone.find_codes :bogus, :invalid     # [nil, nil]
+----
+
+==== Symbols
+
+Much like with the codes, mentioned above, you can find a symbol (or symbols) for a code too:
+
+[source,ruby]
+----
+tone = Tone.new
+
+tone.find_symbol 32           # :green
+tone.find_symbol 666          # nil
+tone.find_symbols 32          # [:green]
+tone.find_symbols 31, 32, 34  # [:red, :green, :blue]
+tone.find_symbols 666, 999    # [nil, nil]
+----
+
+=== Aliases
+
+You can alias combinations of default styles with a descriptive name for shorthand reuse. This allows you to reduce duplicated effort and speed up your workflow. Here are a few examples:
+
+[source,ruby]
+----
+tone = Tone.new
+tone.add_alias :success, :black, :on_green
+tone.add_alias :failure, :white, :on_red
+
+tone["Success!", :success]  # "\e[30;42mSuccess!\e[0m"
+tone["Failure!", :failure]  # "\e[37;41mFailure!\e[0m"
+----
+
+Notice that the first argument is your alias and _all arguments after the first argument_ is the list of styles. Once added, both the `:success` and `:failure` aliases can immediately be used. You can also add multiple aliases, at once, by chaining your messages:
+
+``` ruby
+tone = Tone.new
+           .add_alias(:success, :black, :on_green)
+           .add_alias :failure, :white, :on_red
+
+tone["Success!", :success]  # "\e[30;42mSuccess!\e[0m"
+tone["Failure!", :failure]  # "\e[37;41mFailure!\e[0m"
+```
+
+Aliases -- and associated styles -- can be symbols or strings. The following, despite using strings, is identical to the above:
+
+[source,ruby]
+----
+tone = Tone.new
+           .add_alias("success", "black", "on_green")
+           .add_alias "failure", "white", "on_red"
+
+tone["Success!", :success]  # "\e[30;42mSuccess!\e[0m"
+tone["Failure!", :failure]  # "\e[37;41mFailure!\e[0m"
+----
+
+To see the list of all aliases added, use:
+
+[source,ruby]
+----
+tone = Tone.new.add_alias(:success, :black, :on_green).add_alias :failure, :white, :on_red
+ap tone.aliases
+
+# {
+#   :success => [
+#     :black,
+#     :on_green
+#   ],
+#   :failure => [
+#     :white,
+#     :on_red
+#   ]
+# }
+----
+
+To get a specific alias, use:
+
+[source,ruby]
+----
+tone = Tone.new.add_alias :success, :black, :on_green
+tone.get_alias :success
+
+# [:black, :on_green]
+----
+
+In the case of a default, you'll only get back the given key:
+
+[source,ruby]
+----
+Tone.new.get_alias :green  # :green
+----
+
+=== Errors
+
+There are several checks performed which might result in a `Tone::Error` if not properly used. Here's a few examples of what you might see.
+
+[source,ruby]
+----
+tone = Tone.new
+
+tone.add_alias :bogus
+# Alias must have styles: :bogus. (Tone::Error)
+
+tone.add_alias :bogus, nil
+# Alias must have styles: :bogus. (Tone::Error)
+
+tone.add_alias :red, :red
+# Alias mustn't duplicate (override) default: :red. (Tone::Error)
+
+tone.add_alias :bogus, :invalid
+# Invalid style (:invalid) for key (:bogus). (Tone::Error)
+
+tone.add_alias :success, :black, :on_green
+tone.add_alias :success, :black, :on_green
+# Duplicate alias detected (already exists): :success. (Tone::Error)
+
+tone.get_alias nil
+# Invalid alias or default: nil. (Tone::Error)
+
+tone.get_alias :bogus
+# Invalid alias or default: :bogus. (Tone::Error)
+----
+
+=== Guidelines
+
+The following are worth considering, when using this gem, to help keep your implementation consistent.
+
+Order your arguments by style, foreground, and background when encoding:
+
+[source,ruby]
+----
+# No
+tone["test, :underline, :on_black, :white]
+tone["test, :white, :underline, :on_black]
+tone["test, :on_black, :white, :underline]
+
+# Yes
+tone["test, :underline, :white, :on_black]
+----
+
+Order your arguments by style, foreground, and background when adding aliases:
+
+[source,ruby]
+----
+# No
+tone.add_alias :demo, :underline, :on_black, :white
+tone.add_alias :demo, :white, :underline, :on_black
+tone.add_alias :demo, :on_black, :white, :underline
+
+# Yes
+tone.add_alias :demo, :underline, :white, :on_black
+----
+
+These are not hard requirements but these little touches will help improve readability. 🎉
 
 == Development
 
@@ -36,11 +412,18 @@ cd tone
 bin/setup
 ----
 
-You can also use the IRB console for direct access to all objects:
+You use the IRB console for direct access to all objects:
 
 [source,bash]
 ----
 bin/console
+----
+
+Lastly, there is a `bin/show` script which can be run to display all default styles for quick visual convenience:
+
+[source,bash]
+----
+bin/show
 ----
 
 == Tests
