@@ -18,6 +18,10 @@ toc::[]
 * Provides aliasing of color configurations.
 * Provides quick access to default and aliased styles.
 
+== Screenshots
+
+image::https://alchemists.io/images/projects/tone/screenshot.png[A screenshot of colors,width=200,height=900,role=focal_point]
+
 == Requirements
 
 . link:https://www.ruby-lang.org[Ruby].
@@ -419,7 +423,7 @@ You use the IRB console for direct access to all objects:
 bin/console
 ----
 
-Lastly, there is a `bin/show` script which can be run to display all default styles for quick visual convenience:
+Lastly, there is a `bin/show` script which will display all default styles for quick visual convenience. This is the same script that was used to generate the screenshot you saw at the top of this document.
 
 [source,bash]
 ----
