@@ -1,0 +1,62 @@
+#! /usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+Bundler.require :tools
+
+require_relative "../lib/tone"
+
+tone = Tone.new
+
+puts "STYLES\n\n"
+
+[
+  %i[bold white],
+  %i[dim white],
+  %i[italic white],
+  %i[underline white],
+  %i[inverse white],
+  %i[hidden white],
+  %i[strikethrough white]
+].each { |style, foreground| puts tone[style, style, foreground] }
+
+puts "\nFOREGROUNDS (normal)\n\n"
+
+%i[black red green yellow blue purple cyan white].each { |style| puts tone[style, style] }
+
+puts "\nFOREGROUNDS (bright)\n\n"
+
+%i[
+  bright_black
+  bright_red
+  bright_green
+  bright_yellow
+  bright_blue
+  bright_purple
+  bright_cyan
+  bright_white
+].each { |style| puts tone[style, style] }
+
+puts "\nBACKGROUNDS (normal)\n\n"
+
+[
+  %i[white on_black],
+  %i[white on_red],
+  %i[black on_green],
+  %i[black on_yellow],
+  %i[white on_blue],
+  %i[white on_purple],
+  %i[black on_white]
+].each { |foreground, background| puts tone[background, foreground, background] }
+
+puts "\nBACKGROUNDS (bright)\n\n"
+
+[
+  %i[white on_bright_black],
+  %i[white on_bright_red],
+  %i[black on_bright_green],
+  %i[black on_bright_yellow],
+  %i[white on_bright_blue],
+  %i[white on_bright_purple],
+  %i[black on_bright_white]
+].each { |foreground, background| puts tone[background, foreground, background] }
