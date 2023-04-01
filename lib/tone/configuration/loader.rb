@@ -7,11 +7,11 @@ module Tone
   module Configuration
     # Loads the default configuration into memory as a frozen hash.
     class Loader
-      def initialize path: Pathname("#{__dir__}/defaults.yml")
+      def initialize path = Pathname("#{__dir__}/defaults.yml")
         @path = path
       end
 
-      def call = YAML.safe_load(path.read, symbolize_names: true).freeze
+      def call = YAML.safe_load_file path, symbolize_names: true, freeze: true
 
       private
 
