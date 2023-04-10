@@ -1,5 +1,14 @@
 = Versions
 
+== 0.1.0 (2023-04-10)
+
+* Fixed Pathname requirement - Brooke Kuhlmann
+* Added client inspect - Brooke Kuhlmann
+* Added custom alias override - Brooke Kuhlmann
+* Added screenshot - Brooke Kuhlmann
+* Updated Reek configuration to disable long parameter lists - Brooke Kuhlmann
+* Refactored configuration loader to safe load from file - Brooke Kuhlmann
+
 == 0.0.0 (2023-04-01)
 
 * Added aliaser - Brooke Kuhlmann
