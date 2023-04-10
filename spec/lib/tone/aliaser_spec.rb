@@ -89,16 +89,6 @@ RSpec.describe Tone::Aliaser do
       expect(&expectation).to raise_error(Tone::Error, /Alias must have styles: :test./)
     end
 
-    it "fails when duplicate alias exists" do
-      aliaser.add :reset, :clear
-      expectation = proc { aliaser.add :reset, :color }
-
-      expect(&expectation).to raise_error(
-        Tone::Error,
-        /Duplicate alias detected \(already exists\): :reset./
-      )
-    end
-
     it "fails when duplicating a default" do
       expectation = proc { aliaser.add :red, :bogus }
 

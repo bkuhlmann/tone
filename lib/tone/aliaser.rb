@@ -46,10 +46,7 @@ module Tone
     end
 
     def check_duplicate key
-      kind = key.inspect
-
-      fail Error, "Duplicate alias detected (already exists): #{kind}." if custom.key? key
-      fail Error, "Alias mustn't duplicate (override) default: #{kind}." if defaults.key? key
+      fail Error, "Alias mustn't duplicate (override) default: #{key.inspect}." if defaults.key? key
     end
 
     def check_style key, style
