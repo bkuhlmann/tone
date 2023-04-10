@@ -111,4 +111,15 @@ RSpec.describe Tone::Client do
       expect(client.find_symbols(666, 666, 666)).to contain_exactly(nil, nil, nil)
     end
   end
+
+  describe "#inspect" do
+    it "answers simpliied information about encoder, decoder, and aliaser" do
+      expect(client.inspect).to match(
+        /
+          #<Tone::Client.+@encoder=#<Tone::Encoder.+@decoder=#<Tone::Decoder.+
+          @aliaser=#<Tone::Aliaser.+>
+        /x
+      )
+    end
+  end
 end

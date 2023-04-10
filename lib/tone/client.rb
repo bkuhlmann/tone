@@ -34,6 +34,8 @@ module Tone
 
     def find_symbols(*codes) = defaults.invert.values_at(*codes)
 
+    def inspect = %(#<#{self.class} @encoder=#{encoder} @decoder=#{decoder} @aliaser=#{aliaser})
+
     private
 
     attr_reader :aliaser, :encoder, :decoder
