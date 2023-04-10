@@ -6,6 +6,8 @@ detectors:
   FeatureEnvy:
     exclude:
       - "Tone::Decoder#scan"
+  LongParameterList:
+    enabled: false
   TooManyStatements:
     exclude:
       - "Tone::Decoder#scan"
