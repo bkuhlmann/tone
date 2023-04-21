@@ -2,7 +2,10 @@
 
 require "zeitwerk"
 
-Zeitwerk::Loader.for_gem.setup
+Zeitwerk::Loader.for_gem.then do |loader|
+  loader.ignore "#{__dir__}/rspec/matchers"
+  loader.setup
+end
 
 # Main namespace.
 module Tone

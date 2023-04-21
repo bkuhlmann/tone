@@ -4,6 +4,7 @@
 
 :amazing_print_link: link:https://github.com/amazing-print/amazing_print[Amazing Print]
 :pattern_matching_link: link:https://alchemists.io/articles/ruby_pattern_matching[pattern matching]
+:rspec_link: link:https://rspec.info[RSpec]
 
 = Tone
 
@@ -383,6 +384,47 @@ tone.get_alias :bogus
 # Invalid alias or default: :bogus. (Tone::Error)
 ----
 
+=== Testing
+
+When using this gem in your project, you might find it convenient to use the `have_color` {rspec_link} matcher. This matcher is optional and _must be manually required_ for use in your spec helper:
+
+[source,ruby]
+----
+# spec_helper.rb
+require "tone/rspec/matchers/have_color"
+----
+
+Once required, you can leverage the matcher in any spec as follows:
+
+[source,ruby]
+----
+RSpec.describe DemoPresenter do
+  subject(:presenter) { DemoPresenter.new color: }
+
+  let(:color) { Tone.new }
+
+  describe "#to_s" do
+    it "renders colored text" do
+      expect(presenter.to_s).to have_color(color, ["Test 0.0.0: A test.", :bold])
+    end
+  end
+end
+----
+
+The first argument _must be an instanced of Tone_ because you might have custom aliases which must be known in order to validate your spec. All subsequent arguments (one to many) that follow after the first argument can be a list of decoded tuples as would normally be answered by `Tone#decode`.
+
+In situations where the spec fails, you'll get a formatted error so you can quickly fix as necessary:
+
+....
+expected "\e[37mtest\e[0m\n" to have color decoded as:
+["text", :blue],
+["\n"]
+
+but actually is:
+["test", :white],
+["\n"]
+....
+
 === Guidelines
 
 The following are worth considering, when using this gem, to help keep your implementation consistent.
@@ -426,14 +468,14 @@ cd tone
 bin/setup
 ----
 
-You use the IRB console for direct access to all objects:
+You can use the IRB console for direct access to all objects:
 
 [source,bash]
 ----
 bin/console
 ----
 
-Lastly, there is a `bin/show` script which will display all default styles for quick visual convenience. This is the same script that was used to generate the screenshot you saw at the top of this document.
+Lastly, there is a `bin/show` script which displays the default styles for quick visual convenience. This is the same script that was used to generate the screenshot shown at the top of this document.
 
 [source,bash]
 ----
