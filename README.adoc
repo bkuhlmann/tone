@@ -475,7 +475,7 @@ You can use the IRB console for direct access to all objects:
 bin/console
 ----
 
-Lastly, there is a `bin/show` script which displays the default styles for quick visual convenience. This is the same script that was used to generate the screenshot shown at the top of this document.
+Lastly, there is a `bin/show` script which displays the default styles for quick visual reference. This is the same script used to generate the screenshots shown at the top of this document.
 
 [source,bash]
 ----
