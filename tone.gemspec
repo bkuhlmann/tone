@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |spec|
   spec.name = "tone"
-  spec.version = "0.2.0"
+  spec.version = "0.3.0"
   spec.authors = ["Brooke Kuhlmann"]
   spec.email = ["brooke@alchemists.io"]
   spec.homepage = "https://alchemists.io/projects/tone"
-  spec.summary = "A customizable ANSI text colorizer for your terminal."
+  spec.summary = "A customizable ANSI text terminal colorizer."
   spec.license = "Hippocratic-2.1"
 
   spec.metadata = {

@@ -1,10 +1,10 @@
 cff-version: 1.2.0
 message: Please use the following metadata when citing this project in your work.
 title: Tone
-abstract: A customizable ANSI text colorizer for your terminal.
-version: 0.2.0
+abstract: A customizable ANSI text terminal colorizer.
+version: 0.3.0
 license: Hippocratic-2.1
-date-released: 2023-04-22
+date-released: 2023-06-13
 authors:
   - family-names: Kuhlmann
     given-names: Brooke
