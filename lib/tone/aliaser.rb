@@ -20,7 +20,7 @@ module Tone
       custom.fetch symbol do
         return key if defaults.key? symbol
 
-        usage = defaults.keys.append(*custom.keys).map(&:inspect).to_sentence conjunction: "and/or"
+        usage = defaults.keys.append(*custom.keys).to_usage "and/or"
 
         fail Error, "Invalid alias or default: #{key.inspect}. Use: #{usage}."
       end
@@ -51,7 +51,7 @@ module Tone
 
     def check_style key, style
       defaults.fetch style do
-        usage = defaults.keys.map(&:inspect).to_sentence conjunction: "and/or"
+        usage = defaults.keys.to_usage "and/or"
 
         fail Error, "Invalid style (#{style.inspect}) for key (#{key.inspect}). Use: #{usage}."
       end
