@@ -21,7 +21,7 @@ toc::[]
 
 == Screenshots
 
-image::https://alchemists.io/images/projects/tone/screenshot.png[A screenshot of colors,width=200,height=900,role=focal_point]
+image::https://alchemists.io/images/projects/tone/screenshot.png[A screenshot of colors,width=302,height=1026,role=focal_point]
 
 == Requirements
 
