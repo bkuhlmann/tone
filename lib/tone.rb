@@ -14,5 +14,7 @@ module Tone
   DEFAULTS = Configuration::Loader.new.call
   CONTAINER = {defaults: DEFAULTS, aliaser: Aliaser, encoder: Encoder, decoder: Decoder}.freeze
 
+  def self.loader(registry = Zeitwerk::Registry) = registry.loader_for __FILE__
+
   def self.new(...) = Client.new(...)
 end
