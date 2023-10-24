@@ -1,5 +1,11 @@
 = Versions
 
+== 0.4.1 (2023-10-24)
+
+* Fixed Zeitwerk ignore of RSpec folder - Brooke Kuhlmann
+* Updated to Caliber 0.42.0 - Brooke Kuhlmann
+* Refactored Gemfile to use ruby file syntax - Brooke Kuhlmann
+
 == 0.4.0 (2023-09-30)
 
 * Fixed RuboCop Packaging/BundlerSetupInTests issues - Brooke Kuhlmann
