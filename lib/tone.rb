@@ -3,7 +3,7 @@
 require "zeitwerk"
 
 Zeitwerk::Loader.new.then do |loader|
-  loader.ignore "#{__dir__}/rspec/matchers"
+  loader.ignore "#{__dir__}/tone/rspec"
   loader.tag = File.basename __FILE__, ".rb"
   loader.push_dir __dir__
   loader.setup
