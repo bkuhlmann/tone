@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require "refinements/arrays"
+require "refinements/array"
 
 module Tone
   # Allows storage of custom custom which can be referenced when colorizing text.
   class Aliaser
-    using Refinements::Arrays
+    using Refinements::Array
 
     attr_reader :defaults
 

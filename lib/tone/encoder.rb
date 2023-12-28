@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require "refinements/arrays"
+require "refinements/array"
 
 module Tone
   # Encodes plain text as colorized text.
   class Encoder
-    using Refinements::Arrays
+    using Refinements::Array
 
     def initialize aliaser: Aliaser.new, enabled: $stdout.tty?
       @aliaser = aliaser
