@@ -16,7 +16,7 @@ RSpec.describe Tone do
 
   describe ".new" do
     it "answers client" do
-      expect(described_class.new).to be_a(Tone::Client)
+      expect(described_class.new).to be_a(described_class::Client)
     end
   end
 end
