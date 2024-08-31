@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.metadata = {
     "bug_tracker_uri" => "https://github.com/bkuhlmann/tone/issues",
     "changelog_uri" => "https://alchemists.io/projects/tone/versions",
-    "documentation_uri" => "https://alchemists.io/projects/tone",
+    "homepage_uri" => "https://alchemists.io/projects/tone",
     "funding_uri" => "https://github.com/sponsors/bkuhlmann",
     "label" => "Tone",
     "rubygems_mfa_required" => "true",
