@@ -6,7 +6,7 @@ module Tone
   # Decodes color encoded text into metadata (hash).
   class Decoder
     PATTERN = /
-      \e\[              # Start prefix.
+      \e\[              # Start.
       (?<codes>[\d;]+)  # Style codes.
       m                 # Start suffix.
       (?<text>.+?)      # Lazy text.
@@ -20,7 +20,7 @@ module Tone
       @prefix_pattern = /.*#{pattern}/m
     end
 
-    def call(text) = scan client.new(String(text))
+    def call(text) = scan client.new(text.to_s)
 
     private
 
@@ -28,9 +28,9 @@ module Tone
 
     def scan scanner, collection: []
       until scanner.eos?
-        result = scanner.scan_until pattern
+        match = scanner.scan_until pattern
 
-        return collection.append [scanner.string[scanner.rest]] unless result
+        return collection.append [scanner.string[scanner.rest]] unless match
 
         normal = scanner.pre_match.sub prefix_pattern, ""
 
