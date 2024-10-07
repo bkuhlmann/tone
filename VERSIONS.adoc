@@ -1,5 +1,11 @@
 = Versions
 
+== 1.8.0 (2024-10-07)
+
+* 🔼 Updated to Refinements 12.9.0 - Brooke Kuhlmann
+* 🔼 Updated to Ruby 3.3.5 - Brooke Kuhlmann
+* 🔁 Refactored decoder to clarify implementation - Brooke Kuhlmann
+
 == 1.7.0 (2024-09-01)
 
 * 🟢 Added README Developer Certificate of Origin documentation - Brooke Kuhlmann
