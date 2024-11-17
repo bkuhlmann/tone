@@ -245,10 +245,11 @@ The above will output something similar to what you see below (minus the categor
 
 These are the defaults for which you can mix-n-match as desired to produce colorful output. For example, if you want black text on a green background with an underline, you could use:
 
-```
+[source,ruby]
+----
 tone = Tone.new
 puts tone["Success!", :black, :on_green, :strikethrough]
-```
+----
 
 ==== Codes
 
