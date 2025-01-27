@@ -1,0 +1,50 @@
+#! /usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/inline"
+
+gemfile true do
+  source "https://rubygems.org"
+
+  gem "benchmark-ips"
+  gem "pastel"
+  gem "rainbow"
+  gem "sai"
+  gem "tone", path: ".."
+  gem "debug"
+end
+
+pastel = Pastel.new
+rainbow = Rainbow.new
+tone = Tone.new
+
+Benchmark.ips do |benchmark|
+  benchmark.config time: 5, warmup: 2
+
+  benchmark.report("Pastel") { pastel.black.on_green "Success" }
+  benchmark.report("Rainbow") { rainbow.wrap("Success").black.background :green }
+  benchmark.report("Sai") { Sai.black.on_green.decorate "Success" }
+  benchmark.report("Tone") { tone["Success", :black, :on_green] }
+
+  benchmark.compare!
+end
+
+__END__
+
+ruby 3.4.1 (2024-12-25 revision 48d4efcb85) +YJIT +PRISM [arm64-darwin24.2.0]
+Warming up --------------------------------------
+              Pastel    67.397k i/100ms
+             Rainbow    50.321k i/100ms
+                 Sai    11.607k i/100ms
+                Tone    66.252k i/100ms
+Calculating -------------------------------------
+              Pastel    674.497k (± 1.4%) i/s    (1.48 μs/i) -      3.437M in   5.096975s
+             Rainbow    492.778k (± 1.1%) i/s    (2.03 μs/i) -      2.466M in   5.004349s
+                 Sai    115.182k (± 1.3%) i/s    (8.68 μs/i) -    580.350k in   5.039404s
+                Tone    651.891k (± 1.8%) i/s    (1.53 μs/i) -      3.313M in   5.083144s
+
+Comparison:
+              Pastel:   674497.2 i/s
+                Tone:   651890.9 i/s - 1.03x  slower
+             Rainbow:   492777.9 i/s - 1.37x  slower
+                 Sai:   115182.1 i/s - 5.86x  slower
