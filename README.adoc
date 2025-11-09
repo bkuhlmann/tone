@@ -385,22 +385,23 @@ tone.get_alias :bogus
 # Invalid alias or default: :bogus. (Tone::Error)
 ----
 
-=== Testing
+=== RSpec
 
-When using this gem in your project, you might find it convenient to use the `have_color` {rspec_link} matcher. This matcher is optional and _must be manually required_ for use in your spec helper:
+You might find it convenient to use the `have_color` {rspec_link} matcher when writing specs. This matcher is optional and _must be manually required_ for use in your spec helper:
 
 [source,ruby]
 ----
 # spec_helper.rb
+
 require "tone/rspec/matchers/have_color"
 ----
 
-Once required, you can leverage the matcher in any spec as follows:
+Once required, you can use the matcher as follows:
 
 [source,ruby]
 ----
 RSpec.describe DemoPresenter do
-  subject(:presenter) { DemoPresenter.new color: }
+  subject(:presenter) { described_class.new color: }
 
   let(:color) { Tone.new }
 
@@ -414,7 +415,7 @@ end
 
 The first argument _must be an instanced of Tone_ because you might have custom aliases which must be known in order to validate your spec. All subsequent arguments (one to many) that follow after the first argument can be a list of decoded tuples as would normally be answered by `Tone#decode`.
 
-In situations where the spec fails, you'll get a formatted error so you can quickly fix as necessary:
+In situations where the spec fails, you'll get a formatted error so you can quickly address the issue:
 
 ....
 expected "\e[37mtest\e[0m\n" to have color decoded as:
