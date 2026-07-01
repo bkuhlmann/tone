@@ -26,7 +26,7 @@ module Tone
       end
     end
 
-    def add(key, *styles)
+    def add key, *styles
       fail Error, "Alias must have styles: #{key.inspect}." if styles.tap(&:compact!).empty?
 
       custom[key.to_sym] = validate key, styles.map(&:to_sym)

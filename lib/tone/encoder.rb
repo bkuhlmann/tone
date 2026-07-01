@@ -12,7 +12,7 @@ module Tone
       @enabled = enabled
     end
 
-    def call(text, *styles)
+    def call text, *styles
       return "" if String(text).empty?
 
       !enabled || styles.tap(&:compact!).empty? ? text : "#{start(*styles)}#{text}#{stop}"
@@ -26,7 +26,7 @@ module Tone
 
     def stop = "\e[#{defaults.fetch :clear}m"
 
-    def escape(*styles)
+    def escape *styles
       styles.reduce([]) { |expansion, key| expansion.append(*aliaser.get(key)) }
             .map { |key| defaults[key.to_sym] }
             .join ";"
