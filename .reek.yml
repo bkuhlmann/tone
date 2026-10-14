@@ -11,3 +11,5 @@ detectors:
   TooManyStatements:
     exclude:
       - "Tone::Decoder#scan"
+  UnusedParameters:
+    enabled: false
